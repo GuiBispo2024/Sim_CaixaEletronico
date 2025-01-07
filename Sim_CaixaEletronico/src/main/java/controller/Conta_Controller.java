@@ -52,17 +52,20 @@ public class Conta_Controller {
         }
     }
     
-    public void saque(String numero, Double valor){
+    public String saque(String numero, Double valor){
          try{
             Conta_Model conta = dao.buscarConta(numero);
             if(conta != null){
-                dao.diminuirSaldo(numero, valor);
-                System.out.println("Saque realizado com sucesso!!");
-            }else{
-                System.out.println("Conta não encontrada.");
+                if(conta.getSaldo() >= valor){
+                    dao.atualizarSaldo(numero, -valor);
+                    return "Saque realizado com sucesso!";
+                }else{
+                    return "Saldo insuficiente para realizar o saque.";
+                }
             }
         }catch(SQLException e){
-            System.out.println("Erro ao sacar " + e.getMessage());
+            return "Erro ao sacar " + e.getMessage();
         }
+        return null;
     }
 }
