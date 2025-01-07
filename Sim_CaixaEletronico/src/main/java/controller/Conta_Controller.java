@@ -25,17 +25,16 @@ public class Conta_Controller {
         }
     }
     
-    public void consultarSaldo(String numero){
+   public String consultarSaldo(String numero){
         try{
             Conta_Model conta = dao.buscarConta(numero);
             if(conta != null){
-                System.out.println("Saldo: R$ " + conta.getSaldo());
-            }else{
-                System.out.println("Conta não encontrada");
+                return "Saldo: R$ " + conta.getSaldo();
             }
         }catch(SQLException e){
-            System.out.println("Erro ao consultar saldo: " + e.getMessage());
+            return "Erro ao consultar saldo " + e.getMessage();
         }
+        return null;
     }
     
     public void depositar(String numero, Double valor){
